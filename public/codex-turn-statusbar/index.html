@@ -7,14 +7,16 @@
   <style>
     :root {
       color-scheme: light;
-      --text: #191b20;
-      --muted: #626a76;
+      --text: #1f2329;
+      --muted: #646a73;
+      --subtle: #4a5565;
       --soft: #f5f7fa;
-      --line: #dce2ea;
+      --panel: #f2f3f5;
+      --line: #dee0e3;
       --green: #23bf6f;
       --green-dark: #128653;
-      --blue: #2864d8;
-      --amber: #a36a00;
+      --blue: #336df4;
+      --blue-dark: #245bdb;
     }
 
     * { box-sizing: border-box; }
@@ -24,7 +26,7 @@
     body {
       margin: 0;
       color: var(--text);
-      background: linear-gradient(180deg, #f2fbf6 0, #ffffff 34%, #ffffff 100%);
+      background: linear-gradient(180deg, #edf7ff 0, #ffffff 42%, #ffffff 100%);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
       line-height: 1.58;
       overflow-x: hidden;
@@ -37,7 +39,7 @@
     .page {
       max-width: 1120px;
       margin: 0 auto;
-      padding: 48px 28px 72px;
+      padding: 72px 28px 72px;
     }
 
     .brand {
@@ -45,18 +47,18 @@
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 28px;
-      font-size: 32px;
-      font-weight: 820;
+      gap: 16px;
+      margin-bottom: 18px;
+      font-size: 34px;
+      font-weight: 800;
       text-align: center;
     }
 
     .brand img {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      box-shadow: 0 10px 24px rgb(20 30 45 / 16%);
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      box-shadow: 0 12px 28px rgb(51 109 244 / 14%);
     }
 
     .brand span {
@@ -71,9 +73,10 @@
 
     h1 {
       margin: 0 auto 16px;
-      max-width: 920px;
-      font-size: 74px;
-      line-height: 1.08;
+      max-width: 1040px;
+      font-size: 60px;
+      line-height: 1.14;
+      font-weight: 760;
       letter-spacing: 0;
       overflow-wrap: anywhere;
     }
@@ -82,40 +85,171 @@
       max-width: 760px;
       margin: 0 auto;
       color: var(--muted);
-      font-size: 21px;
+      font-size: 20px;
       overflow-wrap: anywhere;
+    }
+
+    .install {
+      margin: 0 auto 86px;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 74px;
+      margin: 0 0 24px;
+    }
+
+    .tab-link {
+      position: relative;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 17px;
+      font-weight: 600;
+      padding: 0 0 14px;
+      border: 0;
+      background: transparent;
+      font-family: inherit;
+      line-height: 1.5;
+      appearance: none;
+    }
+
+    .tab-link:hover { color: var(--blue); }
+    .tab-link[aria-selected="true"] { color: var(--blue); }
+    .tab-link:focus-visible {
+      outline: 3px solid rgb(51 109 244 / 24%);
+      outline-offset: 6px;
+      border-radius: 4px;
+    }
+
+    .tab-link[aria-selected="true"]::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 128px;
+      max-width: 44vw;
+      height: 2px;
+      transform: translateX(-50%);
+      background: var(--blue);
+    }
+
+    .toggle-panel[hidden] { display: none; }
+
+    .panel {
+      margin: 0 auto;
+      max-width: 800px;
+      border-radius: 14px;
+      background: var(--panel);
+      padding: 38px 48px 36px;
+    }
+
+    .panel p {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 16px;
+      text-align: center;
+      overflow-wrap: anywhere;
+    }
+
+    .prompt-box,
+    .command-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      background: #fff;
+      border: 1px solid #eef0f3;
+      border-radius: 10px;
+      padding: 19px 22px;
+      margin-bottom: 0;
+    }
+
+    .prompt-label { display: none; }
+
+    .prompt-text,
+    pre {
+      flex: 1;
+      min-width: 0;
+      margin: 0;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    pre {
+      background: #fff;
+    }
+
+    .copy-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .copy-button,
+    .download-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      max-width: 100%;
+      min-width: 0;
+      text-align: center;
+      white-space: normal;
+    }
+
+    .copy-button:hover,
+    .download-link:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      text-decoration: none;
     }
 
     .state-showcase {
       max-width: 980px;
-      margin: 0 auto 46px;
+      margin: 0 auto 72px;
       text-align: center;
     }
 
     .state-showcase h2 {
       margin: 0 0 10px;
-      font-size: 28px;
-      line-height: 1.25;
+      font-size: 40px;
+      font-weight: 650;
+      line-height: 1.35;
     }
 
     .state-showcase > p {
       max-width: 680px;
       margin: 0 auto;
       color: var(--muted);
-      font-size: 18px;
+      font-size: 17px;
     }
 
     .state-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
-      margin-top: 24px;
+      margin-top: 28px;
     }
 
     .state-card {
       border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
+      border-radius: 14px;
+      background: #f9fafb;
       padding: 14px;
       text-align: left;
     }
@@ -125,7 +259,7 @@
       width: 100%;
       height: auto;
       border: 1px solid rgb(18 44 76 / 16%);
-      border-radius: 6px;
+      border-radius: 8px;
       background: #2478b7;
     }
 
@@ -166,131 +300,11 @@
       box-shadow: 0 0 0 4px rgb(35 191 111 / 14%);
     }
 
-    .tabs {
-      display: flex;
-      justify-content: center;
-      gap: clamp(28px, 8vw, 96px);
-      margin: 46px 0 26px;
-    }
-
-    .tab-link {
-      position: relative;
-      color: var(--muted);
-      cursor: pointer;
-      font-size: 20px;
-      font-weight: 760;
-      padding: 0;
-      border: 0;
-      background: transparent;
-      font-family: inherit;
-      line-height: inherit;
-      appearance: none;
-    }
-
-    .tab-link:hover { color: var(--green-dark); }
-    .tab-link[aria-selected="true"] { color: var(--green-dark); }
-    .tab-link:focus-visible {
-      outline: 3px solid rgb(35 191 111 / 28%);
-      outline-offset: 7px;
-      border-radius: 4px;
-    }
-
-    .tab-link[aria-selected="true"]::after {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: -14px;
-      width: 230px;
-      max-width: 42vw;
-      height: 3px;
-      transform: translateX(-50%);
-      background: var(--green);
-    }
-
-    .toggle-panel[hidden] { display: none; }
-
-    .panel {
-      margin: 0 auto 34px;
-      max-width: 980px;
-      border-radius: 10px;
-      background: #f1f4f7;
-      padding: 38px clamp(20px, 5vw, 58px);
-    }
-
-    .panel p {
-      margin: 0 0 22px;
-      color: var(--muted);
-      font-size: 19px;
-      overflow-wrap: anywhere;
-    }
-
-    .prompt-box,
-    .command-box {
-      background: #fff;
-      border: 1px solid #e6ebf1;
-      border-radius: 8px;
-      padding: 24px 28px;
-      margin-bottom: 24px;
-    }
-
-    .prompt-label {
-      color: #838c99;
-      font-size: 15px;
-      margin-bottom: 12px;
-    }
-
-    .prompt-text,
-    pre {
-      margin: 0;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      font-size: 18px;
-      line-height: 1.7;
-    }
-
-    pre {
-      color: #242932;
-      background: #fff;
-    }
-
-    .copy-row {
-      display: flex;
-      justify-content: center;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    .copy-button,
-    .download-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 50px;
-      padding: 0 26px;
-      border: 0;
-      border-radius: 999px;
-      background: var(--green);
-      color: #fff;
-      font-size: 17px;
-      font-weight: 820;
-      cursor: pointer;
-      box-shadow: 0 12px 24px rgb(35 191 111 / 22%);
-      text-decoration: none;
-      max-width: 100%;
-      min-width: 0;
-      text-align: center;
-      white-space: normal;
-    }
-
-    .download-link { background: var(--blue); box-shadow: 0 12px 24px rgb(40 100 216 / 18%); }
-    .copy-button:hover { background: var(--green-dark); }
-    .download-link:hover { text-decoration: none; filter: brightness(0.94); }
-
     .done {
       text-align: center;
       color: var(--muted);
       font-size: 18px;
-      margin: 24px 0 44px;
+      margin: -54px 0 72px;
     }
 
     .summary {
@@ -298,24 +312,30 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
       max-width: 980px;
-      margin: 0 auto 52px;
+      margin: 0 auto 62px;
     }
 
     .summary-item {
       border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
-      padding: 20px;
+      border-radius: 14px;
+      background: #f9fafb;
+      padding: 24px 22px;
     }
 
-    .summary-item strong { display: block; margin-bottom: 8px; font-size: 18px; }
+    .summary-item strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--blue);
+      font-size: 18px;
+      font-weight: 600;
+    }
     .summary-item span { color: var(--muted); }
 
     h2 { margin: 0 0 14px; font-size: 24px; line-height: 1.25; }
 
     .foot {
       max-width: 980px;
-      margin: 42px auto 0;
+      margin: 56px auto 0;
       color: var(--muted);
       font-size: 15px;
       border-top: 1px solid var(--line);
@@ -325,7 +345,7 @@
     @media (max-width: 760px) {
       .page {
         max-width: 100%;
-        padding: 34px 18px 52px;
+        padding: 42px 18px 52px;
       }
       .brand {
         flex-direction: column;
@@ -336,7 +356,7 @@
       .brand span { max-width: 100%; }
       h1 {
         max-width: 330px;
-        font-size: 36px;
+        font-size: 38px;
         word-break: break-word;
       }
       .lead {
@@ -344,6 +364,7 @@
         font-size: 18px;
       }
       .state-showcase,
+      .install,
       .tabs,
       .panel,
       .summary,
@@ -352,21 +373,27 @@
         max-width: 100%;
       }
       .tabs {
-        gap: 24px;
+        gap: 30px;
         flex-wrap: wrap;
       }
       .state-showcase h2 { font-size: 24px; }
       .state-showcase > p { font-size: 17px; }
       .state-grid { grid-template-columns: 1fr; }
-      .tab-link { font-size: 17px; }
-      .panel { padding: 26px 18px; }
+      .tab-link { font-size: 16px; }
+      .panel { padding: 28px 18px; }
       .prompt-box,
-      .command-box { padding: 20px 18px; }
+      .command-box {
+        align-items: stretch;
+        flex-direction: column;
+        padding: 20px 18px;
+      }
       .copy-button,
       .download-link { width: 100%; }
       .summary { grid-template-columns: 1fr; }
       .prompt-text,
       pre { font-size: 15px; }
+      .install { margin-bottom: 64px; }
+      .done { margin: -34px 0 58px; font-size: 16px; }
     }
   </style>
 </head>
@@ -381,6 +408,35 @@
       <h1>一个安静的 Codex 菜单栏状态灯</h1>
       <p class="lead">不抢焦点、不发声音。Codex 有未处理轮次时，macOS 菜单栏图标会变绿；空闲时回到白色圆环。</p>
     </section>
+
+    <section class="install" aria-label="安装方式">
+      <nav class="tabs" role="tablist" aria-label="安装方式">
+        <button class="tab-link" id="manual-tab" type="button" role="tab" aria-selected="true" aria-controls="manual-panel" data-tab-target="manual-panel">手动下载</button>
+        <button class="tab-link" id="agent-tab" type="button" role="tab" aria-selected="false" aria-controls="agent-panel" data-tab-target="agent-panel">通过 AI Agent 安装</button>
+      </nav>
+
+      <section class="panel toggle-panel" id="manual-panel" role="tabpanel" aria-labelledby="manual-tab">
+        <p>复制以下命令到终端运行，即可下载 DMG 并安装到 Applications。</p>
+        <div class="command-box">
+          <pre id="manual-command">curl -fsSL http://10.1.111.12:18000/codex-turn-statusbar/install.sh | sh</pre>
+          <button class="copy-button" type="button" data-copy-target="manual-command">复制</button>
+        </div>
+        <div class="copy-row">
+          <a class="download-link" href="./codex-turn-statusbar-latest.dmg">下载 macOS DMG</a>
+        </div>
+      </section>
+
+      <section class="panel toggle-panel" id="agent-panel" role="tabpanel" aria-labelledby="agent-tab" hidden>
+        <p>把下面这一句话发给另一个 Agent。它只需要读取 `install.md`，就能完成下载、校验和安装。</p>
+        <div class="prompt-box">
+          <div class="prompt-label">Agent 安装提示词</div>
+          <p class="prompt-text" id="agent-prompt">帮我安装 Codex Turn Status Bar：http://10.1.111.12:18000/codex-turn-statusbar/install.md</p>
+          <button class="copy-button" type="button" data-copy-target="agent-prompt">复制</button>
+        </div>
+      </section>
+    </section>
+
+    <p class="done">安装后打开 App，并重启 Codex Desktop 或新开会话，让 Codex 重新加载 notify 配置。</p>
 
     <section class="state-showcase" aria-labelledby="state-title">
       <h2 id="state-title">一眼看懂当前状态</h2>
@@ -408,35 +464,6 @@
         </article>
       </div>
     </section>
-
-    <nav class="tabs" role="tablist" aria-label="安装方式">
-      <button class="tab-link" id="agent-tab" type="button" role="tab" aria-selected="true" aria-controls="agent-panel" data-tab-target="agent-panel">通过 AI Agent 安装</button>
-      <button class="tab-link" id="manual-tab" type="button" role="tab" aria-selected="false" aria-controls="manual-panel" data-tab-target="manual-panel">手动下载</button>
-    </nav>
-
-    <section class="panel toggle-panel" id="agent-panel" role="tabpanel" aria-labelledby="agent-tab">
-      <p>把下面这一句话发给另一个 Agent。它只需要读取 `install.md`，就能下载、校验、安装并提醒你重启 Codex。</p>
-      <div class="prompt-box">
-        <div class="prompt-label">Agent 安装提示词</div>
-        <p class="prompt-text" id="agent-prompt">帮我安装 Codex Turn Status Bar：http://10.1.111.12:18000/codex-turn-statusbar/install.md</p>
-      </div>
-      <div class="copy-row">
-        <button class="copy-button" type="button" data-copy-target="agent-prompt">复制提示词</button>
-      </div>
-    </section>
-
-    <section class="panel toggle-panel" id="manual-panel" role="tabpanel" aria-labelledby="manual-tab" hidden>
-      <p>macOS 用户可以直接下载 DMG，拖动 App 到 Applications 后打开。App 首次启动会自动配置 Codex notify。</p>
-      <div class="command-box">
-        <pre id="manual-command">curl -fsSL http://10.1.111.12:18000/codex-turn-statusbar/install.sh | sh</pre>
-      </div>
-      <div class="copy-row">
-        <button class="copy-button" type="button" data-copy-target="manual-command">复制命令</button>
-        <a class="download-link" href="./codex-turn-statusbar-latest.dmg">下载 macOS DMG</a>
-      </div>
-    </section>
-
-    <p class="done">安装后打开 App，并重启 Codex Desktop 或新开会话，让 Codex 重新加载 notify 配置。</p>
 
     <section class="summary" aria-label="工具摘要">
       <div class="summary-item">
@@ -476,7 +503,7 @@
 
     const initialPanel = panels.has(window.location.hash.slice(1))
       ? window.location.hash.slice(1)
-      : "agent-panel";
+      : "manual-panel";
     activateInstallTab(initialPanel);
     if (window.location.hash) {
       history.replaceState(null, "", window.location.pathname + window.location.search);
