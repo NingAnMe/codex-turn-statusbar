@@ -1,0 +1,14 @@
+[package]
+name = "codex-turn-statusbar-tauri"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dependencies]
+chrono.workspace = true
+codex-turn-status-core = { path = "../crates/codex-turn-status-core" }
+serde_json.workspace = true
+tauri.workspace = true
+
+[build-dependencies]
+tauri-build.workspace = true

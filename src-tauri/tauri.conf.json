@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "CodexTurnStatusBar",
+  "version": "0.2.0",
+  "identifier": "local.codex-turn-statusbar",
+  "build": {
+    "frontendDist": "."
+  },
+  "app": {
+    "windows": [],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all"
+  }
+}

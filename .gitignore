@@ -1,0 +1,7 @@
+.build/
+dist/
+.swiftpm/
+target/
+dist-cross/
+src-tauri/gen/
+.DS_Store

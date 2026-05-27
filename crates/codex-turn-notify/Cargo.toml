@@ -1,0 +1,12 @@
+[package]
+name = "codex-turn-notify"
+edition.workspace = true
+license.workspace = true
+version.workspace = true
+
+[dependencies]
+codex-turn-status-core = { path = "../codex-turn-status-core" }
+
+[lib]
+name = "codex_turn_notify"
+path = "src/lib.rs"
