@@ -86,18 +86,6 @@
       overflow-wrap: anywhere;
     }
 
-    .local-note {
-      max-width: 900px;
-      margin: 26px auto 0;
-      color: #6a5600;
-      background: #fff8d8;
-      border: 1px solid #f2df88;
-      border-radius: 8px;
-      padding: 12px 16px;
-      text-align: center;
-      overflow-wrap: anywhere;
-    }
-
     .state-showcase {
       max-width: 980px;
       margin: 0 auto 46px;
@@ -355,7 +343,6 @@
         max-width: 330px;
         font-size: 18px;
       }
-      .local-note,
       .state-showcase,
       .tabs,
       .panel,
@@ -393,7 +380,6 @@
     <section class="hero">
       <h1>一个安静的 Codex 菜单栏状态灯</h1>
       <p class="lead">不抢焦点、不发声音。Codex 有未处理轮次时，macOS 菜单栏图标会变绿；空闲时回到白色圆环。</p>
-      <p class="local-note">当前页面使用本地演示地址，不是公开发布地址。部署后请替换为正式域名。</p>
     </section>
 
     <section class="state-showcase" aria-labelledby="state-title">
@@ -432,7 +418,7 @@
       <p>把下面这一句话发给另一个 Agent。它只需要读取 `install.md`，就能下载、校验、安装并提醒你重启 Codex。</p>
       <div class="prompt-box">
         <div class="prompt-label">Agent 安装提示词</div>
-        <p class="prompt-text" id="agent-prompt">帮我安装 Codex Turn Status Bar：http://127.0.0.1:8000/codex-turn-statusbar/install.md</p>
+        <p class="prompt-text" id="agent-prompt">帮我安装 Codex Turn Status Bar：http://10.1.111.12:18000/codex-turn-statusbar/install.md</p>
       </div>
       <div class="copy-row">
         <button class="copy-button" type="button" data-copy-target="agent-prompt">复制提示词</button>
@@ -442,7 +428,7 @@
     <section class="panel toggle-panel" id="manual-panel" role="tabpanel" aria-labelledby="manual-tab" hidden>
       <p>macOS 用户可以直接下载 DMG，拖动 App 到 Applications 后打开。App 首次启动会自动配置 Codex notify。</p>
       <div class="command-box">
-        <pre id="manual-command">curl -fsSL http://127.0.0.1:8000/codex-turn-statusbar/install.sh | sh</pre>
+        <pre id="manual-command">curl -fsSL http://10.1.111.12:18000/codex-turn-statusbar/install.sh | sh</pre>
       </div>
       <div class="copy-row">
         <button class="copy-button" type="button" data-copy-target="manual-command">复制命令</button>

@@ -2,7 +2,7 @@
 
 你正在为用户安装 `Codex Turn Status Bar`。这是一个 macOS 菜单栏工具，用来显示 Codex Desktop 是否有未处理或未读的任务轮次。
 
-此页面是本地演示发布地址：`http://127.0.0.1:8000/codex-turn-statusbar/`。如果部署到公开服务器，请先把本文和脚本里的 base URL 替换为正式地址。
+发布地址：`http://10.1.111.12:18000/codex-turn-statusbar/`。
 
 ## 目标
 
@@ -22,20 +22,13 @@
 macOS：
 
 ```bash
-curl -fsSL http://127.0.0.1:8000/codex-turn-statusbar/install.sh | sh
-```
-
-如果用户已经把页面部署到其他 host，使用：
-
-```bash
-BASE_URL="https://your-host.example/codex-turn-statusbar" \
-curl -fsSL "https://your-host.example/codex-turn-statusbar/install.sh" | sh
+curl -fsSL http://10.1.111.12:18000/codex-turn-statusbar/install.sh | sh
 ```
 
 Windows PowerShell 当前只会说明未发布：
 
 ```powershell
-irm http://127.0.0.1:8000/codex-turn-statusbar/install.ps1 | iex
+irm http://10.1.111.12:18000/codex-turn-statusbar/install.ps1 | iex
 ```
 
 ## 覆盖策略
@@ -94,11 +87,11 @@ file "$APP/Contents/Resources/codex-turn-notify"
 
 ## 机器可读信息
 
-- `latest.json`: http://127.0.0.1:8000/codex-turn-statusbar/latest.json
-- `dmg`: http://127.0.0.1:8000/codex-turn-statusbar/codex-turn-statusbar-latest.dmg
+- `latest.json`: http://10.1.111.12:18000/codex-turn-statusbar/latest.json
+- `dmg`: http://10.1.111.12:18000/codex-turn-statusbar/codex-turn-statusbar-latest.dmg
 - `dmg sha256`: `1180f619a6126f5c0f8162abc8302ff13466efaf167c588721e0174ffbe11bba`
-- `tar.gz`: http://127.0.0.1:8000/codex-turn-statusbar/codex-turn-statusbar-latest.tar.gz
+- `tar.gz`: http://10.1.111.12:18000/codex-turn-statusbar/codex-turn-statusbar-latest.tar.gz
 - `tar.gz sha256`: `e850ea20b531a67cac6bfdf10676456cedd0620816fbb23af544503fea64a56f`
-- `zip`: http://127.0.0.1:8000/codex-turn-statusbar/codex-turn-statusbar-latest.zip
+- `zip`: http://10.1.111.12:18000/codex-turn-statusbar/codex-turn-statusbar-latest.zip
 - `zip sha256`: `1e72fe431c4c5fe94028f7fe43509e2bc7a1011eeee162fa462fe9eed89e1de2`
 - version: `0.2.0`

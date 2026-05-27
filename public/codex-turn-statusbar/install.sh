@@ -2,7 +2,7 @@
 set -eu
 
 TOOL_NAME="Codex Turn Status Bar"
-BASE_URL="${BASE_URL:-http://127.0.0.1:8000/codex-turn-statusbar}"
+BASE_URL="${BASE_URL:-http://10.1.111.12:18000/codex-turn-statusbar}"
 DMG_NAME="codex-turn-statusbar-latest.dmg"
 EXPECTED_SHA256="1180f619a6126f5c0f8162abc8302ff13466efaf167c588721e0174ffbe11bba"
 APP_NAME="CodexTurnStatusBar.app"
