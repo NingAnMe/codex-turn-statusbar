@@ -323,14 +323,14 @@ dependencies = [
 
 [[package]]
 name = "codex-turn-notify"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "codex-turn-status-core",
 ]
 
 [[package]]
 name = "codex-turn-status-core"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "chrono",
  "serde",
@@ -340,7 +340,7 @@ dependencies = [
 
 [[package]]
 name = "codex-turn-statusbar-tauri"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "chrono",
  "codex-turn-status-core",

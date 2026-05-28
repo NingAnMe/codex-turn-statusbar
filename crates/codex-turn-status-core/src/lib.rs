@@ -570,12 +570,19 @@ impl CodexIpcEvent {
                         &["conversationId"],
                         &["conversationState", "conversationId"],
                         &["conversationState", "id"],
+                        &["change", "conversationState", "conversationId"],
+                        &["change", "conversationState", "id"],
                     ],
                 )?;
                 let has_unread_turn = read_bool_at_paths(
                     params,
-                    &[&["hasUnreadTurn"], &["conversationState", "hasUnreadTurn"]],
-                )?;
+                    &[
+                        &["hasUnreadTurn"],
+                        &["conversationState", "hasUnreadTurn"],
+                        &["change", "conversationState", "hasUnreadTurn"],
+                    ],
+                )
+                .or_else(|| read_bool_patch(params, &[&["hasUnreadTurn"]]))?;
 
                 Some(Self::ThreadReadStateChanged {
                     conversation_id,
@@ -693,6 +700,36 @@ fn read_bool_at_paths(value: &Value, paths: &[&[&str]]) -> Option<bool> {
     paths
         .iter()
         .find_map(|path| read_path(value, path).and_then(Value::as_bool))
+}
+
+fn read_bool_patch(value: &Value, paths: &[&[&str]]) -> Option<bool> {
+    value
+        .get("change")?
+        .get("patches")?
+        .as_array()?
+        .iter()
+        .find_map(|patch| {
+            let path = patch.get("path")?;
+            if patch_path_matches(path, paths) {
+                patch.get("value").and_then(Value::as_bool)
+            } else {
+                None
+            }
+        })
+}
+
+fn patch_path_matches(value: &Value, paths: &[&[&str]]) -> bool {
+    let Some(parts) = value.as_array() else {
+        return false;
+    };
+
+    paths.iter().any(|path| {
+        parts.len() == path.len()
+            && parts
+                .iter()
+                .zip(path.iter())
+                .all(|(part, expected)| part.as_str() == Some(*expected))
+    })
 }
 
 fn read_path<'a>(value: &'a Value, path: &[&str]) -> Option<&'a Value> {

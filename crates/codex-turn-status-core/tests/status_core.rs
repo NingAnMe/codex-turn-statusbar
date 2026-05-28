@@ -279,6 +279,66 @@ fn ipc_stream_state_broadcast_decodes_nested_unread_snapshot() {
 }
 
 #[test]
+fn ipc_stream_state_broadcast_decodes_change_snapshot_unread_state() {
+    let message = r#"{
+      "type": "broadcast",
+      "method": "thread-stream-state-changed",
+      "params": {
+        "conversationId": "thread-123",
+        "change": {
+          "type": "snapshot",
+          "conversationState": {
+            "id": "thread-123",
+            "hasUnreadTurn": true,
+            "unreadMessageCount": 0
+          }
+        }
+      }
+    }"#;
+
+    let event = CodexIpcEvent::from_json_str(message).unwrap();
+
+    assert_eq!(
+        event,
+        Some(CodexIpcEvent::ThreadReadStateChanged {
+            conversation_id: "thread-123".to_string(),
+            has_unread_turn: true
+        })
+    );
+}
+
+#[test]
+fn ipc_stream_state_broadcast_decodes_unread_patch() {
+    let message = r#"{
+      "type": "broadcast",
+      "method": "thread-stream-state-changed",
+      "params": {
+        "conversationId": "thread-123",
+        "change": {
+          "type": "patches",
+          "patches": [
+            {
+              "op": "replace",
+              "path": ["hasUnreadTurn"],
+              "value": false
+            }
+          ]
+        }
+      }
+    }"#;
+
+    let event = CodexIpcEvent::from_json_str(message).unwrap();
+
+    assert_eq!(
+        event,
+        Some(CodexIpcEvent::ThreadReadStateChanged {
+            conversation_id: "thread-123".to_string(),
+            has_unread_turn: false
+        })
+    );
+}
+
+#[test]
 fn ipc_frame_decoder_handles_split_and_multiple_frames() {
     let first = serde_json::json!({"type":"broadcast","method":"client-status-changed"});
     let second = serde_json::json!({

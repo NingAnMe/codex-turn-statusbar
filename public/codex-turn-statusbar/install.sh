@@ -4,7 +4,7 @@ set -eu
 TOOL_NAME="Codex Turn Status Bar"
 BASE_URL="${BASE_URL:-http://10.1.111.12:18000/codex-turn-statusbar}"
 DMG_NAME="codex-turn-statusbar-latest.dmg"
-EXPECTED_SHA256="1180f619a6126f5c0f8162abc8302ff13466efaf167c588721e0174ffbe11bba"
+EXPECTED_SHA256="70deb1c9c138795f41434485c5ce737a2b341b65e77487494aee4b7366010833"
 APP_NAME="CodexTurnStatusBar.app"
 
 if [ "$(uname -s)" != "Darwin" ]; then

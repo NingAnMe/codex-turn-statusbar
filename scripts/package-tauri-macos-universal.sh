@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 APP_NAME="CodexTurnStatusBar"
-PACKAGE_NAME="CodexTurnStatusBar-0.2.1-macos-universal"
+PACKAGE_NAME="CodexTurnStatusBar-0.2.2-macos-universal"
 DIST_DIR="$ROOT_DIR/dist-cross"
 PACKAGE_DIR="$DIST_DIR/$PACKAGE_NAME"
 DMG_STAGING_DIR="$DIST_DIR/$PACKAGE_NAME-dmg"
@@ -67,9 +67,9 @@ cat > "$APP_DIR/Contents/Info.plist" <<PLIST
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
-  <string>0.2.1</string>
+  <string>0.2.2</string>
   <key>CFBundleVersion</key>
-  <string>0.2.1</string>
+  <string>0.2.2</string>
   <key>LSMinimumSystemVersion</key>
   <string>12.0</string>
   <key>LSUIElement</key>
