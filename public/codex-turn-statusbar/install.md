@@ -89,9 +89,9 @@ file "$APP/Contents/Resources/codex-turn-notify"
 
 - `latest.json`: http://10.1.111.12:18000/codex-turn-statusbar/latest.json
 - `dmg`: http://10.1.111.12:18000/codex-turn-statusbar/codex-turn-statusbar-latest.dmg
-- `dmg sha256`: `1180f619a6126f5c0f8162abc8302ff13466efaf167c588721e0174ffbe11bba`
+- `dmg sha256`: `166f379177782ec1d2c8478468601fad2b1894d74c0c60ff1260b72bc25d27aa`
 - `tar.gz`: http://10.1.111.12:18000/codex-turn-statusbar/codex-turn-statusbar-latest.tar.gz
-- `tar.gz sha256`: `e850ea20b531a67cac6bfdf10676456cedd0620816fbb23af544503fea64a56f`
+- `tar.gz sha256`: `4c2c1e10656029f8b56255b63b5d25aa22ffa50135362e096bcc3827b28b8065`
 - `zip`: http://10.1.111.12:18000/codex-turn-statusbar/codex-turn-statusbar-latest.zip
-- `zip sha256`: `1e72fe431c4c5fe94028f7fe43509e2bc7a1011eeee162fa462fe9eed89e1de2`
-- version: `0.2.0`
+- `zip sha256`: `78d828e68740d9c1d2afb64aaad7cf78fdd57f72890ebf457668aae1edf28187`
+- version: `0.2.1`

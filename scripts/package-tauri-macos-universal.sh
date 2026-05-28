@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 APP_NAME="CodexTurnStatusBar"
-PACKAGE_NAME="CodexTurnStatusBar-0.2.0-macos-universal"
+PACKAGE_NAME="CodexTurnStatusBar-0.2.1-macos-universal"
 DIST_DIR="$ROOT_DIR/dist-cross"
 PACKAGE_DIR="$DIST_DIR/$PACKAGE_NAME"
 DMG_STAGING_DIR="$DIST_DIR/$PACKAGE_NAME-dmg"
@@ -43,14 +43,7 @@ lipo -create \
 
 chmod +x "$MACOS_DIR/$APP_NAME" "$PACKAGE_DIR/codex-turn-notify"
 cp "$ROOT_DIR/src-tauri/icons/icon.png" "$APP_DIR/Contents/Resources/icon.png"
-mkdir -p "$ICONSET_DIR"
-sips -z 16 16 "$ROOT_DIR/src-tauri/icons/icon.png" --out "$ICONSET_DIR/icon_16x16.png" >/dev/null
-sips -z 32 32 "$ROOT_DIR/src-tauri/icons/icon.png" --out "$ICONSET_DIR/icon_16x16@2x.png" >/dev/null
-sips -z 32 32 "$ROOT_DIR/src-tauri/icons/icon.png" --out "$ICONSET_DIR/icon_32x32.png" >/dev/null
-sips -z 64 64 "$ROOT_DIR/src-tauri/icons/icon.png" --out "$ICONSET_DIR/icon_32x32@2x.png" >/dev/null
-sips -z 128 128 "$ROOT_DIR/src-tauri/icons/icon.png" --out "$ICONSET_DIR/icon_128x128.png" >/dev/null
-cp "$ROOT_DIR/src-tauri/icons/icon.png" "$ICONSET_DIR/icon_64x64@2x.png"
-iconutil -c icns "$ICONSET_DIR" -o "$APP_DIR/Contents/Resources/icon.icns"
+sips -s format icns "$ROOT_DIR/src-tauri/icons/icon.png" --out "$APP_DIR/Contents/Resources/icon.icns" >/dev/null
 "$DMG_BACKGROUND_TOOL" "$APP_DIR/Contents/Resources/dmg-background.png"
 cp "$PACKAGE_DIR/codex-turn-notify" "$APP_DIR/Contents/Resources/codex-turn-notify"
 chmod +x "$APP_DIR/Contents/Resources/codex-turn-notify"
@@ -74,9 +67,9 @@ cat > "$APP_DIR/Contents/Info.plist" <<PLIST
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
-  <string>0.2.0</string>
+  <string>0.2.1</string>
   <key>CFBundleVersion</key>
-  <string>0.2.0</string>
+  <string>0.2.1</string>
   <key>LSMinimumSystemVersion</key>
   <string>12.0</string>
   <key>LSUIElement</key>

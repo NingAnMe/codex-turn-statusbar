@@ -1,8 +1,9 @@
 mod codex_ipc;
 
 use codex_turn_status_core::{
-    install_notify_helper, merge_display_status, DisplayStatus, MenuBarPresentation, MenuBarTint,
-    MenuContentKey, MenuRefreshState, StatusState, StatusStore, UnreadTracker,
+    install_notify_helper, merge_display_status, should_clear_notify_for_empty_unread_snapshot,
+    DisplayStatus, MenuBarPresentation, MenuBarTint, MenuContentKey, MenuRefreshState, StatusState,
+    StatusStore, UnreadSnapshot, UnreadTracker,
 };
 use std::path::PathBuf;
 use std::process::Command;
@@ -27,6 +28,11 @@ struct TrayAppState {
     menu_refresh: Mutex<MenuRefreshState>,
 }
 
+struct CurrentStatus {
+    status: DisplayStatus,
+    can_mark_handled: bool,
+}
+
 fn main() {
     tauri::Builder::default()
         .setup(|app| {
@@ -39,8 +45,13 @@ fn main() {
             codex_ipc::start_unread_monitor(store.clone(), unread.clone());
 
             let notify_status = store.load_display_status();
-            let can_mark_handled = notify_status.state == StatusState::NeedsAttention;
-            let status = merge_status_parts(notify_status, &unread);
+            let unread_snapshot = unread
+                .lock()
+                .map(|tracker| tracker.snapshot())
+                .unwrap_or_default();
+            let status = merge_display_status(notify_status.clone(), unread_snapshot);
+            let can_mark_handled = notify_status.state == StatusState::NeedsAttention
+                && status.state == StatusState::NeedsAttention;
             let mut menu_refresh = MenuRefreshState::new();
             let _ =
                 menu_refresh.should_rebuild(MenuContentKey::from_status(&status, can_mark_handled));
@@ -97,9 +108,10 @@ fn handle_menu_event<R: Runtime>(app: &AppHandle<R>, event: tauri::menu::MenuEve
 }
 
 fn update_tray<R: Runtime>(app: &AppHandle<R>, state: &TrayAppState) {
-    let notify_status = state.store.load_display_status();
-    let can_mark_handled = notify_status.state == StatusState::NeedsAttention;
-    let status = merge_status_parts(notify_status, &state.unread);
+    let CurrentStatus {
+        status,
+        can_mark_handled,
+    } = current_status(state);
 
     let presentation = MenuBarPresentation::from_status(&status);
     let _ = state.tray.set_icon(Some(icon_for_status(&status)));
@@ -122,9 +134,10 @@ fn update_tray<R: Runtime>(app: &AppHandle<R>, state: &TrayAppState) {
 }
 
 fn force_update_tray_menu<R: Runtime>(app: &AppHandle<R>, state: &TrayAppState) {
-    let notify_status = state.store.load_display_status();
-    let can_mark_handled = notify_status.state == StatusState::NeedsAttention;
-    let status = merge_status_parts(notify_status, &state.unread);
+    let CurrentStatus {
+        status,
+        can_mark_handled,
+    } = current_status(state);
 
     let presentation = MenuBarPresentation::from_status(&status);
     let _ = state.tray.set_icon(Some(icon_for_status(&status)));
@@ -138,15 +151,32 @@ fn force_update_tray_menu<R: Runtime>(app: &AppHandle<R>, state: &TrayAppState) 
     }
 }
 
-fn merge_status_parts(
-    notify_status: DisplayStatus,
-    unread: &Arc<Mutex<UnreadTracker>>,
-) -> DisplayStatus {
-    let unread = unread
+fn current_status(state: &TrayAppState) -> CurrentStatus {
+    let mut notify_status = state.store.load_display_status();
+    let unread = state
+        .unread
         .lock()
         .map(|tracker| tracker.snapshot())
         .unwrap_or_default();
-    merge_display_status(notify_status, unread)
+
+    if should_clear_notify_for_empty_unread_snapshot(&notify_status, &unread)
+        && state.store.mark_handled().is_ok()
+    {
+        notify_status = state.store.load_display_status();
+    }
+
+    merge_status_parts(notify_status, unread)
+}
+
+fn merge_status_parts(notify_status: DisplayStatus, unread: UnreadSnapshot) -> CurrentStatus {
+    let status = merge_display_status(notify_status.clone(), unread);
+    let can_mark_handled = notify_status.state == StatusState::NeedsAttention
+        && status.state == StatusState::NeedsAttention;
+
+    CurrentStatus {
+        status,
+        can_mark_handled,
+    }
 }
 
 fn mark_handled_if_needed<R: Runtime>(app: &AppHandle<R>, state: &TrayAppState) {

@@ -1,9 +1,9 @@
 use codex_turn_status_core::{
-    encode_ipc_message, merge_display_status, should_clear_notify_for_read_thread,
-    should_record_payload, sync_notify_config, CodexIpcEvent, CodexIpcFrameDecoder,
-    CodexNotifyEvent, DisplayStatus, HandledStatePolicy, MenuBarPresentation, MenuBarTint,
-    MenuContentKey, MenuRefreshState, StatusPaths, StatusState, StatusStore, UnreadSnapshot,
-    UnreadTracker,
+    encode_ipc_message, merge_display_status, should_clear_notify_for_empty_unread_snapshot,
+    should_clear_notify_for_read_thread, should_record_payload, sync_notify_config, CodexIpcEvent,
+    CodexIpcFrameDecoder, CodexNotifyEvent, DisplayStatus, HandledStatePolicy, MenuBarPresentation,
+    MenuBarTint, MenuContentKey, MenuRefreshState, StatusPaths, StatusState, StatusStore,
+    UnreadSnapshot, UnreadTracker,
 };
 use std::fs;
 use std::path::PathBuf;
@@ -158,7 +158,7 @@ fn notify_pending_remains_as_fallback_without_unread_activity() {
 }
 
 #[test]
-fn notify_pending_remains_until_matching_read_event_when_monitor_is_connected() {
+fn connected_empty_unread_snapshot_suppresses_stale_notify_attention() {
     let notify_status = DisplayStatus {
         state: StatusState::NeedsAttention,
         title: "Codex needs attention".to_string(),
@@ -175,9 +175,34 @@ fn notify_pending_remains_until_matching_read_event_when_monitor_is_connected() 
         updated_at: Some("2026-05-27T12:00:01Z".to_string()),
     };
 
-    let status = merge_display_status(notify_status.clone(), unread);
+    let status = merge_display_status(notify_status, unread);
 
-    assert_eq!(status, notify_status);
+    assert_eq!(status.state, StatusState::Idle);
+    assert_eq!(status.title, "Codex idle");
+}
+
+#[test]
+fn connected_empty_unread_snapshot_marks_stale_notify_clearable() {
+    let notify_status = DisplayStatus {
+        state: StatusState::NeedsAttention,
+        title: "Codex needs attention".to_string(),
+        detail: "A turn completed.".to_string(),
+        cwd: Some("/work".to_string()),
+        thread_id: Some("thread-123".to_string()),
+        turn_id: Some("turn-456".to_string()),
+        updated_at: Some("2026-05-27T12:00:00Z".to_string()),
+    };
+    let unread = UnreadSnapshot {
+        conversation_count: 0,
+        inbox_count: 0,
+        monitor_connected: true,
+        updated_at: Some("2026-05-27T12:00:01Z".to_string()),
+    };
+
+    assert!(should_clear_notify_for_empty_unread_snapshot(
+        &notify_status,
+        &unread
+    ));
 }
 
 #[test]

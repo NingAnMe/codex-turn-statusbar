@@ -383,6 +383,9 @@ impl UnreadSnapshot {
 
 pub fn merge_display_status(notify_status: DisplayStatus, unread: UnreadSnapshot) -> DisplayStatus {
     if unread.total_count() == 0 {
+        if should_clear_notify_for_empty_unread_snapshot(&notify_status, &unread) {
+            return DisplayStatus::idle();
+        }
         return notify_status;
     }
 
@@ -458,6 +461,15 @@ pub fn should_clear_notify_for_read_thread(
     status.state == StatusState::NeedsAttention
         && !has_unread_turn
         && status.thread_id.as_deref() == Some(conversation_id)
+}
+
+pub fn should_clear_notify_for_empty_unread_snapshot(
+    status: &DisplayStatus,
+    unread: &UnreadSnapshot,
+) -> bool {
+    status.state == StatusState::NeedsAttention
+        && unread.monitor_connected
+        && unread.total_count() == 0
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]

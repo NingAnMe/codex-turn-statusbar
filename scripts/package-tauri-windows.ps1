@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Stop"
 
 $Root = Split-Path -Parent $PSScriptRoot
-$PackageName = "CodexTurnStatusBar-0.2.0-windows-x64"
+$PackageName = "CodexTurnStatusBar-0.2.1-windows-x64"
 $Dist = Join-Path $Root "dist-cross"
 $PackageDir = Join-Path $Dist $PackageName
 
